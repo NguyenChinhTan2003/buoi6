@@ -46,6 +46,9 @@
             this.btnSua = new System.Windows.Forms.Button();
             this.btnThoat = new System.Windows.Forms.Button();
             this.dtpNS = new System.Windows.Forms.DateTimePicker();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.btnSeach = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDSNV)).BeginInit();
             this.SuspendLayout();
             // 
@@ -164,7 +167,7 @@
             // 
             // btnThem
             // 
-            this.btnThem.Location = new System.Drawing.Point(133, 385);
+            this.btnThem.Location = new System.Drawing.Point(33, 385);
             this.btnThem.Name = "btnThem";
             this.btnThem.Size = new System.Drawing.Size(112, 42);
             this.btnThem.TabIndex = 5;
@@ -174,7 +177,7 @@
             // 
             // btnXoa
             // 
-            this.btnXoa.Location = new System.Drawing.Point(277, 385);
+            this.btnXoa.Location = new System.Drawing.Point(181, 385);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(112, 42);
             this.btnXoa.TabIndex = 5;
@@ -184,7 +187,7 @@
             // 
             // btnSua
             // 
-            this.btnSua.Location = new System.Drawing.Point(413, 385);
+            this.btnSua.Location = new System.Drawing.Point(331, 385);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(112, 42);
             this.btnSua.TabIndex = 5;
@@ -194,7 +197,7 @@
             // 
             // btnThoat
             // 
-            this.btnThoat.Location = new System.Drawing.Point(596, 385);
+            this.btnThoat.Location = new System.Drawing.Point(645, 385);
             this.btnThoat.Name = "btnThoat";
             this.btnThoat.Size = new System.Drawing.Size(112, 42);
             this.btnThoat.TabIndex = 5;
@@ -209,11 +212,42 @@
             this.dtpNS.Size = new System.Drawing.Size(200, 22);
             this.dtpNS.TabIndex = 6;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(0, 0);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 8;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(0, 0);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 9;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // btnSeach
+            // 
+            this.btnSeach.Location = new System.Drawing.Point(490, 385);
+            this.btnSeach.Name = "btnSeach";
+            this.btnSeach.Size = new System.Drawing.Size(113, 42);
+            this.btnSeach.TabIndex = 10;
+            this.btnSeach.Text = "Seach";
+            this.btnSeach.UseVisualStyleBackColor = true;
+            this.btnSeach.Click += new System.EventHandler(this.btnSeach_Click);
+            // 
             // frmDSNV
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(845, 449);
+            this.Controls.Add(this.btnSeach);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.dtpNS);
             this.Controls.Add(this.btnThoat);
             this.Controls.Add(this.btnSua);
@@ -257,6 +291,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DateTimePicker dtpNS;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnSeach;
     }
 }
 

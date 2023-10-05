@@ -66,88 +66,107 @@ namespace buoi6
        
         private void btnThem_Click(object sender, EventArgs e)
         {
-            
 
-            dgvDSNV.Rows.Add(txtMaNV.Text, txtTenNV.Text, Convert.ToDateTime(dtpNS.Text), cmbPB.Text);
-
-            
-
-            string maNV = txtMaNV.Text;
-            string hoTen = txtTenNV.Text;
-            string tenPB = cmbPB.SelectedValue.ToString();
-            DateTime ngaySinh = DateTime.Parse(dtpNS.Text);
-
-            using (var md = new Model1())
+            if (txtMaNV.Text == "" || txtTenNV.Text == "")
             {
-                Nhanvien nv = new Nhanvien();
-                nv.MaNV = maNV;
-                nv.TenNV = hoTen;
-                nv.Ngaysinh = ngaySinh;
-                nv.MaPB = tenPB;
-                md.Nhanviens.Add(nv);
-                md.SaveChanges();
-
+                MessageBox.Show("Vui lòng điền đủ thông tin cần thêm ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
-            Model1 context = new Model1();
-            // Làm mới bảng dữ liệu
-            BindGrid(context.Nhanviens.ToList());
-
-        }
-
-        private void btnSua_Click(object sender, EventArgs e)
-        {
-            if (dgvDSNV.SelectedRows.Count > 0)
+            else
             {
-                // Code cập nhật nhân viên
+                MessageBox.Show("Thêm thành công!","thông báo",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+
                 string maNV = txtMaNV.Text;
                 string hoTen = txtTenNV.Text;
                 string tenPB = cmbPB.SelectedValue.ToString();
                 DateTime ngaySinh = DateTime.Parse(dtpNS.Text);
 
-                using (var db = new Model1())
+                using (var md = new Model1())
                 {
-                    Phongban pb = db.Phongbans.FirstOrDefault();
-                    Nhanvien nv = db.Nhanviens.Find(maNV);
-                    if (nv != null)
-                    {
-                        // Có tìm thấy nhân viên, tiến hành cập nhật
-                        nv.MaNV = maNV;
-                        nv.TenNV = hoTen;
-                        nv.Ngaysinh = ngaySinh;
-                        nv.MaPB = tenPB;
-                        db.SaveChanges();
-                    }
-                    Model1 context = new Model1();
-                    BindGrid(context.Nhanviens.ToList());
-
+                    Nhanvien nv = new Nhanvien();
+                    nv.MaNV = maNV;
+                    nv.TenNV = hoTen;
+                    nv.Ngaysinh = ngaySinh;
+                    nv.MaPB = tenPB;
+                    md.Nhanviens.Add(nv);
+                    md.SaveChanges();
 
                 }
+                Model1 context = new Model1();
+                // Làm mới bảng dữ liệu
+                BindGrid(context.Nhanviens.ToList());
+            }
+        }
+
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+
+
+
+            // Code cập nhật nhân viên
+          
+
+
+            using (var md = new Model1())
+            {
+                string maNV = txtMaNV.Text;
+                string hoTen = txtTenNV.Text;
+                string tenPB = cmbPB.SelectedValue.ToString();
+                DateTime ngaySinh = DateTime.Parse(dtpNS.Text);
+
+
+
+                Nhanvien nv = md.Nhanviens.FirstOrDefault(s => s.MaNV == maNV);
+                if (nv != null)
+                {
+                    // Có tìm thấy nhân viên, tiến hành cập nhật
+
+                    nv.TenNV = hoTen;
+                    nv.Ngaysinh = ngaySinh;
+                    nv.MaPB = tenPB;
+
+                    md.SaveChanges();
+                    MessageBox.Show("Cập nhật thành công ", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    BindGrid(md.Nhanviens.ToList());
+                }
+                else MessageBox.Show("Khong tim thay nhan vien", "Thong bao", MessageBoxButtons.OK, MessageBoxIcon.Error);
+               
+              
+
+
+
 
             }
-
+        
 
         }
+
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
 
-            if (dgvDSNV.SelectedRows.Count > 0)
+            dgvDSNV.Rows.RemoveAt(dgvDSNV.SelectedRows[0].Index);
+            using (Model1 context = new Model1())
             {
-                DialogResult result = MessageBox.Show("Bạn có chắc muốn xóa không?", "Xác nhận", MessageBoxButtons.YesNo);
-                string maNV = dgvDSNV.SelectedRows[0].Cells[0].Value.ToString();
+                string maNV = txtMaNV.Text;
+                string hoTen = txtTenNV.Text;
+                string tenPB = cmbPB.SelectedValue.ToString();
+                DateTime ngaySinh = DateTime.Parse(dtpNS.Text);
+
+
+                Nhanvien nv = context.Nhanviens.FirstOrDefault(s => s.MaNV == maNV);
+                DialogResult result = MessageBox.Show("Bạn có chắc muốn xóa không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Hand);
+
                 if (result == DialogResult.Yes)
                 {
-                    dgvDSNV.Rows.RemoveAt(dgvDSNV.SelectedRows[0].Index);
-                    using (Model1 context = new Model1())
-                    {
-                        
-                        Nhanvien nhanvien = context.Nhanviens.Find(maNV);
-                        context.Nhanviens.Remove(nhanvien);
-                        context.SaveChanges();
-                    }
-                }
 
+                    
+                    context.Nhanviens.Remove(nv);
+                    context.SaveChanges();
+                }
             }
+
+            
         }
 
         private void dgvDSNV_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -158,6 +177,69 @@ namespace buoi6
             txtTenNV.Text = row.Cells[1].Value.ToString();
             dtpNS.Text = row.Cells[2].Value.ToString();
             cmbPB.Text = row.Cells[3].Value.ToString();
+        }
+
+        private void btnSeach_Click(object sender, EventArgs e)
+        {
+            /*using (Model1 context = new Model1())
+            {
+                string maNV = txtMaNV.Text;
+                string hoTen = txtTenNV.Text;
+                string tenPB = cmbPB.SelectedValue.ToString();
+                DateTime ngaySinh = DateTime.Parse(dtpNS.Text);
+                Nhanvien nv = context.Nhanviens.Where(s => s.MaNV == maNV).FirstOrDefault();
+
+                if (nv != null)
+                {
+                    // Có tìm thấy nhân viên, tiến hành cập nhật
+                    txtTenNV.Text = nv.TenNV.ToString();
+                    dtpNS.Text = nv.Ngaysinh.ToString();
+                    cmbPB.Text = nv.Phongban.TenPB.ToString();
+                }
+                else MessageBox.Show("Khong tim thay sv!", "Thong bao!", MessageBoxButtons.OK, MessageBoxIcon.Question);
+            }*/
+            using (Model1 context = new Model1())
+            {
+                string maNV = txtMaNV.Text;
+                string hoTen = txtTenNV.Text;
+                string tenPB = cmbPB.SelectedValue.ToString();
+                DateTime ngaySinh = DateTime.Parse(dtpNS.Text);
+                Nhanvien nv = context.Nhanviens.Where(s => s.MaNV == maNV).FirstOrDefault();
+
+                if (maNV == "")
+                {
+                    // Trả về dữ liệu ban đầu của DataGridView
+                    BindGrid(context.Nhanviens.ToList());
+                    return;
+                }
+
+                if (nv != null)
+                {
+                    // Có tìm thấy nhân viên, tiến hành cập nhật
+                    txtTenNV.Text = nv.TenNV.ToString();
+                    dtpNS.Text = nv.Ngaysinh.ToString();
+                    cmbPB.Text = nv.Phongban.TenPB.ToString();
+
+                    // Xóa tất cả các dòng trong DataGridView
+                    dgvDSNV.Rows.Clear();
+
+                    // Thêm dòng mới vào DataGridView
+                    int index = dgvDSNV.Rows.Add();
+                    dgvDSNV.Rows[index].Cells[0].Value = nv.MaNV;
+                    dgvDSNV.Rows[index].Cells[1].Value = nv.TenNV;
+                    dgvDSNV.Rows[index].Cells[2].Value = nv.Ngaysinh;
+                    dgvDSNV.Rows[index].Cells[3].Value = nv.Phongban.TenPB;
+                }
+                else
+                {
+
+
+                    MessageBox.Show("Khong tim thay nhan vien", "Thong bao!", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    BindGrid(context.Nhanviens.ToList());
+                    return;
+                }
+
+            }
         }
     }
 }
